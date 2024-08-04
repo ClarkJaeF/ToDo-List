@@ -82,11 +82,36 @@ class ListManager:
         else:
             print("List not found")
 
-    def get_task_list(self, list_name):
-        return self.lists.get(list_name, None)
+    def add_task_to_list(self, list_name, task_name):
+        task_list = self.lists.get(list_name)
+        if task_list:
+            TaskManager.add_task(task_list, task_name)
+        else:
+            print("List not found")
+
+    def remove_task_from_list(self, list_name, task_name):
+        task_list = self.lists.get(list_name)
+        if task_list:
+            TaskManager.remove_task(task_list, task_name)
+        else:
+            print("List not found")
+
+    def mark_task_completed_in_list(self, list_name, task_name):
+        task_list = self.lists.get(list_name)
+        if task_list:
+            TaskManager.mark_task_completed(task_list, task_name)
+        else:
+            print("List not found")
+
+    def mark_task_incomplete_in_list(self, list_name, task_name):
+        task_list = self.lists.get(list_name)
+        if task_list:
+            TaskManager.mark_task_incomplete(task_list, task_name)
+        else:
+            print("List not found")
 
     def display_list(self, list_name):
-        task_list = self.get_task_list(list_name)
+        task_list = self.lists.get(list_name)
         if task_list:
             TaskManager.display_tasks(task_list)
         else:
@@ -96,13 +121,13 @@ if __name__ == "__main__":
     manager = ListManager()
     
     actions = {
-        "1": manager.handle_create_list,
-        "2": manager.handle_remove_list,
-        "3": manager.handle_add_task,
-        "4": manager.handle_remove_task,
-        "5": manager.handle_mark_task_completed,
-        "6": manager.handle_mark_task_incomplete,
-        "7": manager.handle_display_list
+        "1": manager.create_list,
+        "2": manager.remove_list,
+        "3": lambda: manager.add_task_to_list(input("Enter list name: "), input("Enter task name: ")),
+        "4": lambda: manager.remove_task_from_list(input("Enter list name: "), input("Enter task name: ")),
+        "5": lambda: manager.mark_task_completed_in_list(input("Enter list name: "), input("Enter task name: ")),
+        "6": lambda: manager.mark_task_incomplete_in_list(input("Enter list name: "), input("Enter task name: ")),
+        "7": lambda: manager.display_list(input("Enter list name: "))
     }
     
     while True:
